@@ -1,10 +1,14 @@
 class ArticlesController < ApplicationController
-    def show
-        @article = Article.find(params[:id])
+    #ths helper will pass the set_article action into the listed controller actions
+    #this means that the instance variable @article does not need to be set in each action
+    before_action :set_article, only: [:show, :edit, :update, :destroy]
+
+    def show 
     end
 
     def index
-       @articles = Article.all 
+        #find all articles and pass them into an instance variable
+        @articles = Article.all 
     end
 
     def new
@@ -12,7 +16,8 @@ class ArticlesController < ApplicationController
     end
 
     def create
-        @article = Article.new(params.require(:article).permit(:title, :description))
+        #the private method areticle_params replaces the previous params variable
+        @article = Article.new(article_params)
         if @article.save
         flash[:notice] = 'Article successfully saved'
         redirect_to @article        
@@ -22,14 +27,12 @@ class ArticlesController < ApplicationController
     end
 
     def edit
-        @article = Article.find(params[:id])
     end
 
     def update
-        @article = Article.find(params[:id])
         if
-        @article.update(params.require(:article).permit(:title, :description))
-            flash[:notice] = 'Article suddessfully updated'
+        @article.update(article_params)
+            flash[:notice] = 'Article successfully updated'
             redirect_to @article
         else
             render 'edit'
@@ -37,8 +40,17 @@ class ArticlesController < ApplicationController
     end
 
     def destroy
-        @article = Article.find(params[:id])
         @article.destroy
         redirect_to articles_path
+    end
+
+    private
+
+    def set_article
+        @article = Article.find(params[:id])
+    end
+
+    def article_params
+        params.require(:article).permit(:title, :description)
     end
 end
