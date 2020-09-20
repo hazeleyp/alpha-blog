@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'pages#home'
   get 'about', to:'pages#about'
-  resources :articles, only: [:show, :index, :new, :create, :edit, :update]
+  #expose all of the RESTful routes
+  resources :articles
 end

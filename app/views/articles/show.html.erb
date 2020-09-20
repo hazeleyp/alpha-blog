@@ -4,3 +4,10 @@
 
 <p>Title: <%= @article.title %></p>
 <p>Description: <%= @article.description %></p>
+
+<p>
+    <button><%= link_to 'Edit', edit_article_path(@article) %></button>
+    <button><%= link_to 'Delete', article_path(@article), method: :delete, data: { confirm: 'Are you sure?'} %></button>
+</p>
+
+<a href="/articles">Home</a>
