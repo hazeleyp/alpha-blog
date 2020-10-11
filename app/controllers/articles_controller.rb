@@ -18,6 +18,7 @@ class ArticlesController < ApplicationController
     def create
         #the private method areticle_params replaces the previous params variable
         @article = Article.new(article_params)
+        @article.user = User.first
         if @article.save
         flash[:notice] = 'Article successfully saved'
         redirect_to @article        
